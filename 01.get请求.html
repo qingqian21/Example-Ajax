@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>get请求</title>
+    <script src="./js/jQuery.min.js"></script>
+</head>
+
+<body>
+    <button id="btnGET">发起不带参get请求</button>
+    <button id="btnGETINFO">发起带参get请求</button>
+
+    <script>
+        $(function() {
+            // res 服务器响应回来的数据
+
+            // get不带参的请求
+            $('#btnGET').on('click', function() {
+                $.get('http://www.liulongbin.top:3006/api/getbooks', function(res) {
+                    console.log(res);
+                })
+            });
+
+            // get带参的请求
+            $('#btnGETINFO').on('click', function() {
+                $.get('http://www.liulongbin.top:3006/api/getbooks', {
+                    id: 3,
+                }, function(res) {
+                    console.log(res);
+                })
+            });
+        })
+    </script>
+</body>
+
+</html>

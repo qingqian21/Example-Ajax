@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/axios.js"></script>
+</head>
+
+<body>
+    <!-- 测试发起跨域的 Ajax 请求 -->
+    <script>
+        // Access-Control-Allow-Origin ... 出现这个错误，表示发起跨域 Ajax 请求，被同源策略拦截了
+        axios({
+            method: "GET",
+            url: "http://www.liulongbin.top:3006/api/jsonp",
+            parmas: {
+                name: "zs",
+                age: 20
+            }
+        }).then(function(res) {
+            console.log(res.data);
+        })
+    </script>
+
+</body>
+
+</html>

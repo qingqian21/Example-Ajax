@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/jQuery.js"></script>
+
+</head>
+
+<!-- 使用 jQuery 实现文件上传 -->
+<!-- 进行文件上传时，只能使用 $.ajax() 进行上传 -->
+
+
+<!-- 使用 jQuery 实现 loading 效果 -->
+<!-- 
+    ajaxStart(callback)
+    Ajax 请求开始时，执行 ajaxStart() 函数，可以在 ajaxStart 的 callback 中显示 loading 效果
+
+    ajaxStop(callback)
+    Ajax 请求结束时，执行 ajaxStop() 函数，可以在 ajaxStop 的 callback 中隐藏 loading 效果
+
+    ajaxSuccess(callback) 和 ajaxError(callback) Ajax 请求成功 和 失败调用回调函数
+
+    注意：
+        1.自 jQuery 1.8 起，该方法只能被附加到文档
+        2.$(document).ajaxStart(callback) 和 $(document).ajaxStop(callback) 会监听当前文档中所有的 Ajax 请求
+ -->
+
+<body>
+    <input type="file" name="ufile" id="ufile">
+    <button id="btnUpload">上传文件</button>
+    <br/>
+    <img src="./images/loading.gif" alt="" id="loading" style="margin: 15px auto; display: none;">
+    <img src="" alt="" width="300px" id="uavatar">
+
+    <script>
+        $(function() {
+
+            // 使用 jQuery 实现文件上传
+            $("#btnUpload").on("click", function() {
+                // files属性是 DOM 对象的属性，需要转换为 DOM 对象
+                var files = $("#ufile")[0].files;
+                if (files.length <= 0) {
+                    return alert("未上传任何文件！");
+                }
+                var fd = new FormData();
+                fd.append("avatar", files[0]);
+
+                $.ajax({
+                    method: "POST",
+                    url: "http://www.liulongbin.top:3006/api/upload/avatar",
+                    data: fd,
+                    // 不修改 Content-Type 属性，使用 FormData 默认的 Content-Type 值
+                    contentType: false,
+                    // 不对 FormData 中的数据进行 URL 编码，而是将 FormData 数据原样发送到服务器
+                    processData: false,
+                    success: function(res) {
+                        if (res.status !== 200) {
+                            return res.message;
+                        }
+                        $("#uavatar").prop("src", "http://www.liulongbin.top:3006" + res.url)
+                    }
+                })
+            })
+
+
+            // 使用 jQuery 实现 loading 效果
+            $(document).ajaxStart(function() {
+                $("#loading").show();
+            })
+
+            $(document).ajaxStop(function() {
+                $("#loading").hide();
+            })
+        })
+    </script>
+
+</body>
+
+</html>

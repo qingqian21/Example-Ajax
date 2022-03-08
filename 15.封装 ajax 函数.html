@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // GET 请求测试
+        Ajax({
+            method: "GET",
+            url: "http://www.liulongbin.top:3006/api/getbooks",
+            data: {
+                id: 1,
+            },
+            success: function(res) {
+                console.log(res);
+            }
+        })
+
+        // POST 请求测试
+        // Ajax({
+        //     method: "POST",
+        //     url: "http://www.liulongbin.top:3006/api/addbook",
+        //     data: {
+        //         bookname: "请求",
+        //         author: "张三",
+        //         publisher: "图书"
+        //     },
+        //     success: function(res) {
+        //         console.log(res);
+        //     }
+        // })
+
+        // 处理 data 对象，将数据对象转化为查询字符串的格式。
+        function resolveData(data) {
+            var arr = [];
+
+            // for (var key in object) 中，key表示属性名，object[key]表示属性值
+            for (var key in data) {
+
+                // array.push()在数组末尾，添加一个或多个数组元素，返回新数组长度，且数组内容发生变化。
+                arr.push(key + "=" + data[key])
+            };
+
+            // array.join("分隔符")方法，将数组转换为字符串，默认使用","分隔，若有分隔符，则以分隔符分割。返回新字符串
+            return arr.join("&");
+        }
+
+        // 封装 ajax 函数
+        function Ajax(object) {
+            // 创建 xhr 对象
+            var xhr = new XMLHttpRequest();
+
+            // 并将 object 中的数据转换为查询字符串的格式
+            var string = resolveData(object.data);
+
+            // 判断发起 GET 请求 或是 POST 请求
+            if (object.method.toUpperCase() === "GET") {
+                // 创建 Ajax 请求
+                xhr.open("GET", object.url + "?" + string);
+
+                // 发送 Ajax 请求
+                xhr.send();
+
+            } else if (object.method.toUpperCase() === "POST") {
+                // 创建 Ajax 请求
+                xhr.open("POST", object.url);
+
+                // 设置 Content-Type 属性
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                // 发起 Ajax 请求
+                xhr.send(string);
+
+            }
+
+            // 监听 onreadystatechange 事件
+            xhr.addEventListener("readystatechange", function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var obj = JSON.parse(xhr.responseText);
+                    object.success(obj);
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

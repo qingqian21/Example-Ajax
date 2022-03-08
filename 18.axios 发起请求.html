@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/axios.js"></script>
+</head>
+
+<!-- 
+    Axios 是专注于网络数据请求的 JS 库。
+    相比于原生的 XMLHttpRequest 对象，Axios 简单易用。
+    相比于 jQuery，Axios 更加轻量化，只专注于网络数据请求。
+ -->
+
+<!-- 
+     1.GET 请求
+    axios.get("url",{params:{参数}}).then(function(res) {})
+
+    2.POST 请求
+    axios.post("url",{参数}).then(function(res) {})
+
+    3.axios 直接发起请求,作用与 $.ajax() 类似
+    axios({
+        method:"请求类型",
+        url:"请求的 URL 地址",
+        data:{POST 参数},
+        params:{GET 参数}
+    }).then(function() {})
+
+    注意： 
+        1.res.data 表示服务器返回的数据,res 中其他属性都是 axios 包装的。
+        2.axios() 中，POST 请求用 data 属性，GET 请求用 params 属性
+-->
+
+<body>
+    <button id="btnGet">发起 GET 请求</button>
+    <button id="btnPost">发起 POST 请求</button>
+    <button id="btnAxiosGet">直接使用 axios 发起 GET 请求</button>
+    <button id="btnAxiosPost">直接使用 axios 发起 POST 请求</button>
+
+    <!-- 发起 GET 请求 -->
+    <script>
+        var btn = document.querySelector("#btnGet");
+        btn.addEventListener("click", function() {
+            // 使用 axios.get() 发起 GET 请求
+            axios.get("http://www.liulongbin.top:3006/api/get", {
+                params: {
+                    name: "zs",
+                    age: 20
+                }
+            }).then(function(res) {
+                // res.data 是服务器返回的真实数据
+                console.log(res.data);
+            })
+        })
+    </script>
+
+    <!-- 发起 POST 请求 -->
+    <script>
+        var btn = document.querySelector("#btnPost");
+        btn.onclick = function() {
+            axios.post("http://www.liulongbin.top:3006/api/post", {
+                location: "北京",
+                address: "顺义"
+            }).then(function(res) {
+                console.log(res.data);
+            })
+        }
+    </script>
+
+
+    <!-- 使用 Axios 直接发起 GET 请求 -->
+    <script>
+        var btnAxiosGet = document.querySelector("#btnAxiosGet");
+        btnAxiosGet.addEventListener("click", function() {
+            axios({
+                method: "GET",
+                url: "http://www.liulongbin.top:3006/api/get",
+                // 注意：GET 请求使用 params 属性
+                params: {
+                    name: "钢铁侠",
+                    age: 35
+                }
+            }).then(function(res) {
+                console.log(res.data);
+            })
+        })
+    </script>
+
+    <!-- 使用 Axios 直接发起 POST 请求 -->
+    <script>
+        var btnAxiosPost = document.querySelector("#btnAxiosPost");
+        btnAxiosPost.onclick = function() {
+            axios({
+                method: "POST",
+                url: "http://www.liulongbin.top:3006/api/post",
+                // 注意：POST 请求使用 data 属性
+                data: {
+                    name: "哈哈",
+                    age: 22
+                }
+            }).then(function(res) {
+                console.log(res.data);
+            })
+        }
+    </script>
+</body>
+
+</html>

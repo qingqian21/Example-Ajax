@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>post请求</title>
+    <script src="./js/jQuery.min.js"></script>
+</head>
+
+<body>
+    <button id="btnPOST">发起POST请求</button>
+    <script>
+        $(function() {
+            // res 服务器响应回来的数据
+
+            $('#btnPOST').on('click', function() {
+                $.post('http://www.liulongbin.top:3006/api/addbook', {
+                    bookname: '夏至未至',
+                    author: '郭敬明',
+                    publisher: '哈哈哈哈'
+                }, function(res) {
+                    console.log(res);
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

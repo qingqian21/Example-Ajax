@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<!-- 
+    同源： 若两个页面的协议，域名和端口都相同，这两个页面具有相同的源。
+    域名后边紧跟的":数字"是端口，若没有":数字"，则默认端口为80端口
+    例如： http://www.test.com/index.html
+            协议：http  域名：www.test.com  端口：80
+-->
+
+<!-- 
+    同源策略：是浏览器提供的一个安全策略
+    官方解释：同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互，这是一个用于隔离潜在恶意文件的重要安全机制
+    通俗理解：浏览器规定，A 网站的 JavaScript，不允许和非同源的网站 C 之间，进行资源交互。
+    例如：
+        1.无法读取非同源网页的Cookie，LocalStorage，和 IndexedDB
+        2.无法接触非同源网页的 DOM
+        3.无法向非同源地址发送 Ajax 请求
+ -->
+
+<!-- 
+     跨域：同源是指两个 URL 的协议，域名和端口一致。反之，则是跨域。
+     出现跨域的根本原因：浏览器的同源策略不允许非同源的 URL 之间进行资源交互
+     例如：
+        网页：http://www.test.com/index.html
+        接口：http://www.api.com/userlist
+        若网页向接口发送 Ajax 请求，受同源策略影响，会导致 Ajax 请求失败
+  -->
+
+<!-- 
+    浏览器对跨域请求的拦截
+    跨域请求过程图片。
+    注意：浏览器允许发起跨域请求，但是，跨域请求回来的数据，会被浏览器拦截，无法被页面获取到。
+ -->
+
+<!-- 
+    实现跨域数据请求：
+    实现跨域数据请求，主要两种解决方案：JSONP 和 CORS。
+    JSONP：出现的早，兼容性好。是一种临时方案。缺点：只支持 GET 请求，不支持 POST 请求。
+    CORS：出现较晚，属于跨域 Ajax 请求的根本解决方案，支持 GET 和 POST 请求。缺点：不支持某些低版本浏览器。
+ -->
+
+<body>
+
+</body>
+
+</html>

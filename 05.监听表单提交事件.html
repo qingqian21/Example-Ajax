@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <script src="./js/jQuery.min.js"></script>
+</head>
+
+<body>
+    <form action="/login.html" method="post" id="f1">
+        <input type="text" name="email_or_mobile" id="">
+        <input type="password" name="password" id="">
+        <button type="submit">提交</button>
+    </form>
+
+    <script>
+        $(function() {
+
+
+            // 方法1
+            //$('#f1').submit(function(eve) {
+            //alert('ok');
+            //eve.preventDefault();
+            //})  
+
+
+            // 方法2
+            $('#f1').on('submit', function(eve) {
+                eve.preventDefault();
+                var data = $(this).serialize();
+                console.log(data);
+            })
+        })
+    </script>
+</body>
+
+</html>

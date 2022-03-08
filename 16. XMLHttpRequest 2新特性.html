@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+<!-- 
+    XMLHttpRequest2 的新功能 
+    1.可以设置 HTTP 请求的时限(timeout属性 , timeout事件)
+    2.可以使用 FormData 对象管理表单数据 或 直接获取网页表单的值(new FormData(selector))
+    3.可以上传文件(sellector.files.length, FormData 对象[new FormData() , append()])
+    4.可以获得数据传输的进度信息(xhr.upload.onprogress[event.lengthComputable , event.loaded , event.total] , xhr.upload.onload)
+
+    注意：只有上传文件时，不需要设置 xhr.setRequestHeader 中的 Content-Type 属性
+-->
+
+
+<body>
+    <!-- 设置 HTTP 请求的时限  
+        新版本的 XMLHttpRequest 对象，增加了 timeout 属性，可以设置 HTTP 请求时限。若过了这个时限，就会自动停止 HTTP 请求。与之配套的还有 timeout 事件。
+    -->
+
+    <!-- <script>
+        var xhr = new XMLHttpRequest();
+        // 设置超时时限，超时后，停止 HTTP 请求
+        xhr.timeout = 3000;
+        // 超时后调用的函数
+        xhr.addEventListener("timeout", function() {
+            console.log("请求超时！");
+        })
+        xhr.open("GET", "http://www.liulongbin.top:3006/api/getbooks");
+        xhr.send();
+        xhr.addEventListener("readystatechange", function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+        })
+    </script> -->
+
+
+
+    <!-- FormData 对象管理表单数据（HTML5新增） 或 直接获取网页表单的值-->
+
+    <!-- FormData 对象管理表单数据 -->
+    <!-- <script>
+        // 创建 FormData 实例
+        var fd = new FormData()
+
+        // 通过调用 append() 函数，向 fd 中追加数据
+        fd.append("uname", "zs");
+        fd.append("upwd", "123456");
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://www.liulongbin.top:3006/api/formdata");
+        xhr.send(fd);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+        }
+    </script> -->
+
+    <!-- FormData 对象直接获取网页表单的值 -->
+    <!-- <form action="" method="post" id="form1">
+        <input type="text" name="uname" autocomplete="off" />
+        <input type="password" name="upwd" id="">
+        <button type="submit">提交</button>
+    </form>
+
+    <script>
+        // 通过 DOM 操作 获取 form 表单元素
+        var form = document.querySelector("#form1");
+
+        form.addEventListener("submit", function(event) {
+            // 阻止表单的默认提交行为
+            event.preventDefault();
+
+            // 创建 FormDat 对象，快速获取到 form 表单中的数据
+            var data = new FormData(form);
+
+            // 发起 Ajax 请求
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://www.liulongbin.top:3006/api/formdata");
+            xhr.send(data);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(JSON.parse(xhr.responseText));
+                }
+            }
+        })
+    </script> -->
+
+
+
+    <!-- 上传文件 -->
+    <!-- 步骤：
+            1.定义 UI 结构
+            2.验证是否选择文件
+            3.向 FormData 中追加文件 （使用 append() 函数即可）
+            4.使用 xhr 发起上传文件的请求
+            5.监听 onreadystatechange 事件
+    -->
+
+    <!-- <input type="file" name="ufile" id="file1" />
+    <button id="btnUpload">上传文件</button>
+    <br/>
+    <img src="" alt="" width="800" id="avatar">
+
+    <script>
+        // 获取上传按钮
+        var btnUpload = document.querySelector("#btnUpload");
+        var img_avatar = document.querySelector("#avatar");
+        // 为上传按钮注册点击事件
+        btnUpload.addEventListener("click", function() {
+            // 获取用户选择的文件列表
+            // files 属性是一个数组，files.length 表示文件个数
+            var files = document.querySelector("#file1").files;
+
+            if (files.length <= 0) {
+                // 此时表示没有上传文件
+                return alert("未上传文件！");
+            } else {
+                // 此时表示有文件需要上传
+                var data = new FormData();
+                // 将用户选择的文件添加到 FormData 中
+                data.append("avatar", files[0]);
+
+                // 创建 xhr 对象
+                var xhr = new XMLHttpRequest();
+
+                // 调用 open() ，创建 Ajax 请求
+                xhr.open("POST", "http://www.liulongbin.top:3006/api/upload/avatar");
+                // 调用 send() ，发起 Ajax 请求
+                xhr.send(data);
+                // 监听 onreadystatechange事件
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // xhr.responseText 是JSON 字符串
+                        var avatar = JSON.parse(xhr.responseText);
+                        if (avatar.status === 200) {
+                            img_avatar.src = "http://www.liulongbin.top:3006" + avatar.url;
+                        } else {
+                            console.log(avatar.message);
+                        }
+                    }
+                }
+            }
+        })
+    </script> -->
+
+
+
+    <!-- 显示文件上传进度 -->
+    <!-- 
+        新版本的 XMLHttpRequest 对象中，可以通过监听 xhr.upload.onprogress 事件，来获取到文件上传进度 
+    -->
+
+    <input type="file" name="ufile" id="file1" />
+    <button id="btnUpload">上传文件</button>
+    <!-- 进度条 -->
+    <div class="progress" style="width: 500px; margin: 15px 10px;">
+        <div class="progress-bar progress-bar-striped active" id="percent">
+        </div>
+    </div>
+    <br/>
+    <img src="" alt="" width="300" id="avatar">
+
+    <script>
+        // 获取上传按钮
+        var btnUpload = document.querySelector("#btnUpload");
+        var img_avatar = document.querySelector("#avatar");
+        var percent = document.querySelector("#percent")
+            // 为上传按钮注册点击事件
+        btnUpload.addEventListener("click", function() {
+            // 获取用户选择的文件列表
+            // files 属性是一个数组，files.length 表示文件个数
+            var files = document.querySelector("#file1").files;
+
+            if (files.length <= 0) {
+                // 此时表示没有上传文件
+                return alert("未上传文件！");
+            } else {
+                // 此时表示有文件需要上传
+                var data = new FormData();
+                // 将用户选择的文件添加到 FormData 中
+                data.append("avatar", files[0]);
+
+                // 创建 xhr 对象
+                var xhr = new XMLHttpRequest();
+
+                // 监听文件上传的进度
+                xhr.upload.addEventListener("progress", function(event) {
+                    // event.lengthComputable 是一个布尔值，表示当前上传的资源是否具有可计算的长度
+                    if (event.lengthComputable) {
+                        // event.loaded 表示已传输的字节
+                        // event.total 表示总需要传输的字节
+                        var percentComplete = Math.ceil((event.loaded / event.total) * 100);
+                        percent.style.width = percentComplete + "%";
+                        percent.innerHTML = percentComplete + "%";
+                    }
+                })
+
+                // 监听上传完成的事件
+                xhr.upload.addEventListener("load", function() {
+                    percent.className = "progress-bar progress-bar-success";
+                })
+
+                // 调用 open() ，创建 Ajax 请求
+                xhr.open("POST", "http://www.liulongbin.top:3006/api/upload/avatar");
+                // 调用 send() ，发起 Ajax 请求
+                xhr.send(data);
+
+                // 监听 onreadystatechange事件
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // xhr.responseText 是JSON 字符串
+                        var avatar = JSON.parse(xhr.responseText);
+                        if (avatar.status === 200) {
+                            img_avatar.src = "http://www.liulongbin.top:3006" + avatar.url;
+                        } else {
+                            console.log(avatar.message);
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

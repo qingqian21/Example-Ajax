@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/jQuery.js"></script>
+</head>
+
+<!-- 
+    $.ajax() 不仅能发起真正的 Ajax 请求之外，还可以发起 JSONP 数据请求.
+
+    注意：
+    1.若要使用 $.ajax() 发起 JSONP 请求，必须指定 dataType:"jsonp"
+    2.默认情况下，使用 jQuery 发起 JSONP 请求，会自动携带一个 "callback = jQueryXXX" 的参数 , jQueryXXX 是随机生成的一个回调函数名称。
+-->
+
+<!-- 
+    自定义参数及回调函数名称
+    在使用 jQuery 发起 JSONP 请求时，若想要自定义 JSONP 的参数和回调函数名称，可以通过 jsonp(参数,默认callback) 和 jsonpCallback(回调函数名,称默认jQueryXXX) 属性来修改。
+ -->
+
+<!-- 
+     jQuery 中 JSONP 的实现过程
+     jQuery 中的 JSONP 也是通过 <script> 标签的 src 属性来实现跨域数据访问的，只不过，jQuery采用的是动态移除 <script> 标签的方式，来发起 JSONP 请求。
+  -->
+
+<body>
+    <!-- 默认参数和函数名 -->
+    <!-- <script>
+        $(function() {
+            // 发起 JSONP 的请求
+            $.ajax({
+                url: "http://www.liulongbin.top:3006/api/jsonp?name=zs&age=20",
+                // 指定 dataType:"jsonp" 表示发起 JSONP 请求
+                dataType: "jsonp",
+                success: function(res) {
+                    console.log(res);
+                }
+            })
+        })
+    </script> -->
+
+
+    <!-- 自定义参数和函数名 -->
+    <script>
+        $(function() {
+            $.ajax({
+                url: "http://www.liulongbin.top:3006/api/jsonp?name=zs&age=20",
+                dataType: "jsonp",
+                // 自定义回调函数名称，默认 jQueryXXX
+                jsonpCallback: "jQueryCallback",
+                success: function(res) {
+                    console.log(res);
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>

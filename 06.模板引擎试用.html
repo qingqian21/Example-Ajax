@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 只要导入模板引擎，在window全局都会多一个template('模板的Id','需要渲染的数据对象') -->
+    <!-- 1.引入模板引擎 -->
+    <script src="./js/template-web.js"></script>
+    <script src="./js/jQuery.min.js"></script>
+</head>
+
+<body>
+    <div id="container">
+    </div>
+
+
+    <!-- 3.定义模板 -->
+    <script type="text/html" id="template1">
+        <div>{{name}} -------- {{sex}}</div>
+        <div>{{age}}</div>
+
+        <!-- 数据中包含 HTML 结构，需要利用原文输出语法 -->
+        {{@ test}}
+
+        <!-- 条件输出 -->
+        <h3>
+            {{if flag === 0}} flag 的值为 0 {{else if flag === 1}} flag 的值为 1 {{/if}}
+        </h3>
+
+        <!-- 循环输出 -->
+        <ul>
+            {{each hobby}}
+            <li>索引是：{{$index}}索引项：{{$value}}</li>
+            {{/each}}
+        </ul>
+
+        <!-- 过滤器 -->
+        <h4>{{regTime | dateFormate}}</h4>
+    </script>
+
+    <script>
+        template.defaults.imports.dateFormate = function(date) {
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            var d = date.getDate();
+
+            return y + '-' + m + '-' + d;
+        }
+
+        // 2.定义数据
+        var data = {
+            name: 'Hellen',
+            age: 20,
+            sex: 'female',
+            test: '<h2>原文输出语法测试</h2>',
+            flag: 1,
+            hobby: ['吃饭', '睡觉'],
+            regTime: new Date()
+        }
+
+        // 4.调用 template函数
+        var htmlStr = template('template1', data);
+        console.log(htmlStr);
+
+        // 5.渲染 HTML 结构
+        $('#container').html(htmlStr);
+    </script>
+
+</body>
+
+</html>
